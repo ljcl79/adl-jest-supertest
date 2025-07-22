@@ -1,0 +1,162 @@
+{
+    "info": {
+        "_postman_id": "a8f3d1e1-e6b2-4d5e-8e5a-27a1b4d2c7f5",
+        "name": "API Personas - Testing",
+        "description": "Colección para probar los endpoints del CRUD de la API de Personas.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "1. Crear Persona",
+            "event": [
+                {
+                    "listen": "test",
+                    "script": {
+                        "exec": [
+                            "// Guardar el ID de la persona creada en una variable de la colección",
+                            "pm.test(\"Status code is 201\", function () {",
+                            "    pm.response.to.have.status(201);",
+                            "});",
+                            "",
+                            "const response = pm.response.json();",
+                            "pm.collectionVariables.set(\"personaId\", response.id);",
+                            "console.log('Persona ID guardada: ', response.id);"
+                        ],
+                        "type": "text/javascript"
+                    }
+                }
+            ],
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"nombre\": \"Juan\",\n    \"apellido\": \"Pérez\",\n    \"edad\": 30\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{baseUrl}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ]
+                },
+                "description": "Crea una nueva persona. El test guarda automáticamente el ID de la persona creada para usarlo en las siguientes peticiones."
+            },
+            "response": []
+        },
+        {
+            "name": "2. Obtener Persona por ID",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/{{personaId}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "{{personaId}}"
+                    ]
+                },
+                "description": "Obtiene los datos de la persona creada en el paso anterior usando el ID guardado."
+            },
+            "response": []
+        },
+        {
+            "name": "3. Actualizar Persona",
+            "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"edad\": 31,\n    \"apellido\": \"Pérez Actualizado\"\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{baseUrl}}/{{personaId}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "{{personaId}}"
+                    ]
+                },
+                "description": "Actualiza la edad y el apellido de la persona creada."
+            },
+            "response": []
+        },
+        {
+            "name": "4. Obtener Todas las Personas",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ]
+                },
+                "description": "Devuelve un array con todas las personas que existen en la base de datos."
+            },
+            "response": []
+        },
+        {
+            "name": "5. Borrar Persona",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "{{baseUrl}}/{{personaId}}",
+                    "host": [
+                        "{{baseUrl}}"
+                    ],
+                    "path": [
+                        "{{personaId}}"
+                    ]
+                },
+                "description": "Borra la persona creada y actualizada en los pasos anteriores."
+            },
+            "response": []
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    ""
+                ]
+            }
+        }
+    ],
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:3000/personas",
+            "type": "string"
+        },
+        {
+            "key": "personaId",
+            "value": "",
+            "type": "string"
+        }
+    ]
+}

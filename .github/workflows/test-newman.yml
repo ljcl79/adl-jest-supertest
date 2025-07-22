@@ -1,0 +1,38 @@
+#Nombre del Workflow
+name: Pruebas API Newman
+
+on: [push, pull_request]
+
+jobs:
+    test-newman-api:
+        runs-on: ubuntu-latest
+        timeout-minutes: 5
+
+        steps:
+            #Bajar el código
+            - name: Checkout
+              uses: actions/checkout@v4
+            
+            - name: Instalar Node.js
+              uses: actions/setup-node@v4
+              with:
+                node-version: '20'
+
+            - name: Instalar depencias
+              run: npm ci
+
+            - name: Levantar la API
+              run: npm start
+
+            - name: Instalación y Ejecución de Newman
+              run: |
+                npm install -g newman newman-reporter-htmlextra
+                newman run "test-collection.json" --reporters cli,htmlextra --reporter-htmlextra-export "reporte.html"
+
+            - name: Sube el reporte al repositorio
+              uses: actions/upload-artifact@v4
+              with:
+                name: reporte-api
+                path: reporte.html
+                
+
