@@ -18,11 +18,11 @@ jobs:
               with:
                 node-version: '20'
 
-            - name: Instalar depencias
+            - name: Instalar dependencias
               run: npm ci
 
             - name: Levantar la API
-              run: npm start
+              run: npm start &
 
             - name: Instalación y Ejecución de Newman
               run: |
@@ -34,5 +34,5 @@ jobs:
               with:
                 name: reporte-api
                 path: reporte.html
-                
+
 
